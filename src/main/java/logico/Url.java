@@ -1,10 +1,25 @@
 package logico;
 
-public class Url {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
-    private String urlOriginal;
+@Entity
+public class Url {
+    @Id
     private String urlIndexada;
+    private String urlOriginal;
     private String urlBase62;
+    @OneToOne
+    private Usuario creador;
+
+    public Url(){
+
+    }
+
+    public Url(String urlOriginal, String urlIndexada, String urlBase62){
+
+    }
 
     public Url(String urlOriginal) {
         this.urlOriginal = urlOriginal;

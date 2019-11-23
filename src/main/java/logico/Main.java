@@ -1,8 +1,20 @@
 package logico;
 
+import services.BootStrapServices;
+import services.DataBaseServices;
+import services.GestionDB;
+
+import java.sql.SQLException;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+
+        BootStrapServices.startDb();
+        DataBaseServices.getInstancia().testConexion();
+        new Rutas().manejoRutas();
+        new GestionDB<>();
+
 
         Codec codec = new Codec();
 
