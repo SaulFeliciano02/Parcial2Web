@@ -14,6 +14,7 @@ public class Main {
         BootStrapServices.startDb();
         DataBaseServices.getInstancia().testConexion();
         new Rutas().manejoRutas();
+        new Filtros().manejarFiltros();
         new GestionDB<>();
 
         Usuario usuario = new Usuario("Admin", "Admin", "admin", true);
