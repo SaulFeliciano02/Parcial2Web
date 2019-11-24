@@ -22,6 +22,14 @@ public class GestionDB<T> {
 
     }
 
+    public GestionDB(Class<T> claseEntidad) {
+        if(emf == null) {
+            emf = Persistence.createEntityManagerFactory("MiUnidadPersistencia");
+        }
+        this.claseEntidad = claseEntidad;
+
+    }
+
 
     public EntityManager getEntityManager(){
         return emf.createEntityManager();

@@ -19,6 +19,7 @@ public class Codec {
 
     // Encodes a URL to a shortened URL.
     public String encode(String longUrl) {
+        System.out.println("El valor de longUrl es: " + longUrl);
         if (urlToIndex.containsKey(longUrl)) {
             System.out.println("http://tinyurl.com/"+base62Encode(urlToIndex.get(longUrl)));
             return "http://tinyurl.com/"+base62Encode(urlToIndex.get(longUrl));
@@ -27,12 +28,12 @@ public class Codec {
             indexToUrl.put(Long.parseLong(Integer.toString(Controladora.getInstance().getMisUrls().size()+1)), longUrl);
             urlToIndex.put(longUrl, Long.parseLong(Integer.toString(Controladora.getInstance().getMisUrls().size()+1)));
             Url url = new Url(longUrl);
-            url.setUrlIndexada("http://tinyurl.com/"+urlToIndex.get(longUrl));
-            url.setUrlBase62("http://tinyurl.com/"+base62Encode(urlToIndex.get(longUrl)));
+            url.setUrlIndexada("/shorty.com/"+urlToIndex.get(longUrl));
+            url.setUrlBase62("/shorty.com/"+base62Encode(urlToIndex.get(longUrl)));
             Controladora.getInstance().getMisUrls().add(url);
-            String url2 = "http://tinyurl.com/"+base62Encode(urlToIndex.get(longUrl));
+            String url2 = "/shorty.com/"+base62Encode(urlToIndex.get(longUrl));
             System.out.println(urlToIndex.get(longUrl));
-            System.out.println("http://tinyurl.com/"+base62Encode(urlToIndex.get(longUrl)));
+            System.out.println("/shorty.com/"+base62Encode(urlToIndex.get(longUrl)));
             return url2;
         }
     }

@@ -48,4 +48,12 @@ public class Url {
     public void setUrlBase62(String urlBase62) {
         this.urlBase62 = urlBase62;
     }
+
+    public Usuario getCreador() {
+        return creador;
+    }
+
+    public void setCreador(Usuario creador) {
+        this.creador = creador;
+    }
 }
