@@ -33,6 +33,7 @@ public class Rutas {
         Spark.get("/", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("loggedUser", request.session(true).attribute("usuario"));
+            attributes.put("links", Controladora.getInstance().getMisUrls());
             return getPlantilla(configuration, attributes, "index.ftl");
         });
 
