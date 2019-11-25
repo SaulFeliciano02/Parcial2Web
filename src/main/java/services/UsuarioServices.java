@@ -57,4 +57,8 @@ public class UsuarioServices extends GestionDB {
             return null;
         }
     }
+
+    public long getSizeUsuario(){
+        return (long) getEntityManager().createQuery("Select count(u.id) from Usuario u").getSingleResult();
+    }
 }
