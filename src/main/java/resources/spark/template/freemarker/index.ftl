@@ -95,7 +95,7 @@
                     <tr>
                         <#if links?size != 0>
                             <#list links as link>
-                                <td><a href="http://${link.urlOriginal}">"${link.urlBase62}"</a></td>
+                                <td><a href="/shorty.com/${link.urlBase62?substring(12)}">"${link.urlBase62}"</a></td>
                             </#list>
                         </#if>
                     </tr>

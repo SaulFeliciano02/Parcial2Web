@@ -43,7 +43,7 @@ public class Rutas {
             Url url = Controladora.getInstance().findUrlByShort(urlShort);
             if(url != null){
                 System.out.println("Going to..." + url.getUrlOriginal());
-                response.redirect(url.getUrlOriginal());
+                response.redirect("http://" + url.getUrlOriginal());
             }
             else{
                 System.out.println("Going nowhere!");
