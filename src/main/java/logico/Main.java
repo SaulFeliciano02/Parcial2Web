@@ -3,6 +3,7 @@ package logico;
 import services.BootStrapServices;
 import services.DataBaseServices;
 import services.GestionDB;
+import services.UsuarioServices;
 
 import javax.naming.ldap.Control;
 import java.sql.SQLException;
@@ -16,8 +17,17 @@ public class Main {
         new Rutas().manejoRutas();
         new Filtros().manejarFiltros();
         new GestionDB<>();
+        UsuarioServices usuarioServices = new UsuarioServices();
 
-        Usuario usuario = new Usuario("Admin", "Admin", "admin", true);
+        Usuario usuario = null;
+        if(usuarioServices.getSizeUsuario() == 0){
+            //usuario = new Usuario("Admin", "Admin", "admin", true);
+            System.out.println("Creando a un admin...");
+        }
+        else{
+            System.out.println("El admin no ha sido creado");
+        }
+
         Url url = new Url("youtube.com");
         String shortenedUrl = new Codec().encode(url.getUrlOriginal());
         url.setUrlBase62(shortenedUrl);
