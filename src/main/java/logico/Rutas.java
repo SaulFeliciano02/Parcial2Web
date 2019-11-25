@@ -33,6 +33,7 @@ public class Rutas {
         Spark.get("/", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("loggedUser", request.session(true).attribute("usuario"));
+            attributes.put("links", Controladora.getInstance().getMisUrls());
             return getPlantilla(configuration, attributes, "index.ftl");
         });
 
@@ -42,7 +43,7 @@ public class Rutas {
             Url url = Controladora.getInstance().findUrlByShort(urlShort);
             if(url != null){
                 System.out.println("Going to..." + url.getUrlOriginal());
-                response.redirect(url.getUrlOriginal());
+                response.redirect("http://" + url.getUrlOriginal());
             }
             else{
                 System.out.println("Going nowhere!");

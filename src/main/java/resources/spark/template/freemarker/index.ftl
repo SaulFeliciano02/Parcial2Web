@@ -93,8 +93,11 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a href="/shorty.com/b">youtube.com</a></td>
-                        <td><a href="/shorty.com/b">shorty.com/b</a></td>
+                        <#if links?size != 0>
+                            <#list links as link>
+                                <td><a href="/shorty.com/${link.urlBase62?substring(12)}">"${link.urlBase62}"</a></td>
+                            </#list>
+                        </#if>
                     </tr>
                 </tbody>
             </table>
