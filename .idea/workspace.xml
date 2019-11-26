@@ -10,9 +10,16 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/logico/Codec.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/logico/Codec.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/logico/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/logico/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logico/Codec.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logico/Codec.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logico/Filtros.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logico/Filtros.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/logico/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logico/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logico/Rutas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logico/Rutas.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/resources/spark/template/freemarker/index.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/resources/spark/template/freemarker/index.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/UrlServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/UrlServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/UsuarioServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/UsuarioServices.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -114,6 +121,7 @@
       <workItem from="1574459240862" duration="6220000" />
       <workItem from="1574558129264" duration="7781000" />
       <workItem from="1574615516665" duration="3022000" />
+      <workItem from="1574645247113" duration="13612000" />
     </task>
     <servers />
   </component>
