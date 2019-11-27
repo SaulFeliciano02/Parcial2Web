@@ -11,10 +11,10 @@
     <title>The ERP Blog</title>
 
     <!-- Bootstrap core CSS -->
-    <!--<link href="resources/publico/startbootstrap-blog-home-gh-pages/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<link href="resources/resources.publico/startbootstrap-blog-home-gh-pages/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
 
     <!-- Custom styles for this template -->
-    <!--<link href="resources/publico/startbootstrap-blog-home-gh-pages/css/blog-home.css" rel="stylesheet">-->
+    <!--<link href="resources/resources.publico/startbootstrap-blog-home-gh-pages/css/blog-home.css" rel="stylesheet">-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="js/qrcode.min.js"></script>

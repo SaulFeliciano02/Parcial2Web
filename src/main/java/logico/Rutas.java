@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.*;
-
 import ua_parser.Parser;
 import ua_parser.Client;
 
@@ -58,15 +57,15 @@ public class Rutas {
             if(url != null){
                 System.out.println("Going to..." + url.getUrlOriginal());
 
-                Parser uaParser = new Parser();
-                Client c = uaParser.parse(request.userAgent());
-                String sistemaOperativo = c.os.family + " " + c.os.major;
-                String browser = c.userAgent.family;
-                String ip = request.ip();
-                String id = UUID.randomUUID().toString();
-                Visita visita = new Visita(url, sistemaOperativo, browser, ip);
-                visita.setId(id);
-                visitaServices.crear(visita);
+//                Parser uaParser = new Parser();
+//                Client c = uaParser.parse(request.userAgent());
+//                String sistemaOperativo = c.os.family + " " + c.os.major;
+//                String browser = c.userAgent.family;
+//                String ip = request.ip();
+//                String id = UUID.randomUUID().toString();
+//                Visita visita = new Visita(url, sistemaOperativo, browser, ip);
+//                visita.setId(id);
+//                visitaServices.crear(visita);
 
                 response.redirect("http://" + url.getUrlOriginal());
             }

@@ -4,18 +4,18 @@ import services.BootStrapServices;
 import services.DataBaseServices;
 import services.GestionDB;
 import services.UsuarioServices;
-import spark.Spark;
 import org.apache.commons.codec.digest.DigestUtils;
 import services.*;
 
-import javax.naming.ldap.Control;
 import java.sql.SQLException;
 import java.util.UUID;
+
+import static spark.Spark.staticFiles;
 
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-        Spark.staticFileLocation("/publico");
+        staticFiles.location("/publico");
         BootStrapServices.startDb();
         DataBaseServices.getInstancia().testConexion();
         new Rutas().manejoRutas();
