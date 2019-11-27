@@ -77,11 +77,11 @@
             <h2 class="my-4">Posts</h2>
 
             <!-- Post Creation Form -->
-            <form method="post" action="/createPost" class="form-inline">
+            <form method="post" action="/createUrl" class="form-inline">
                 <div class="form-group">
-                    <input class="form-control" name="postTitle" placeholder="Title" type="text">
+                    <input class="form-control" name="originalUrl" placeholder="URL" type="text">
                 </div>
-                <button id="postPost" type="submit" class="btn btn-primary">Publish</button>
+                <button id="postPost" type="submit" class="btn btn-primary">Shorten!</button>
             </form>
             <br><br>
 
@@ -91,20 +91,21 @@
                 <tr>
                     <th>Link</th>
                     <th>Shortened Link</th>
+                    <th>Created By</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <#if links?size != 0>
-                            <#list links as link>
+
+                <#if links?size != 0>
+                    <#list links as link>
+                            <tr>
+                                <td><a href="/shorty.com/${link.urlBase62?substring(12)}">${link.urlOriginal}"</a></td>
                                 <td><a href="/shorty.com/${link.urlBase62?substring(12)}">"${link.urlBase62}"</a></td>
-                                <div id="qrcode"></div>
-                                <script type="text/javascript">
-                                    new QRCode(document.getElementById("qrcode"), link.urlOriginal);
-                                </script>
-                            </#list>
-                        </#if>
-                    </tr>
+                                <td>${link.creador.username}</td>
+                            </tr>
+                    </#list>
+                </#if>
+
                 </tbody>
             </table>
 
