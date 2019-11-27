@@ -93,6 +93,7 @@
                 </tr>
                 </thead>
                 <tbody>
+
                 <#if links?size != 0>
                     <#list links as link>
                             <tr>
@@ -102,6 +103,7 @@
                             </tr>
                     </#list>
                 </#if>
+
                 </tbody>
             </table>
 

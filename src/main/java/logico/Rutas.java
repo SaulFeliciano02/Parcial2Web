@@ -38,6 +38,7 @@ public class Rutas {
 
         Spark.get("/", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
+
             Usuario loggedUser = request.session(true).attribute("usuario");
             attributes.put("loggedUser", loggedUser);
             if(loggedUser != null){
@@ -56,6 +57,7 @@ public class Rutas {
             Url url = urlServices.findUrlByShort(urlShort);
             if(url != null){
                 System.out.println("Going to..." + url.getUrlOriginal());
+
                 Parser uaParser = new Parser();
                 Client c = uaParser.parse(request.userAgent());
                 String sistemaOperativo = c.os.family + " " + c.os.major;
@@ -65,6 +67,7 @@ public class Rutas {
                 Visita visita = new Visita(url, sistemaOperativo, browser, ip);
                 visita.setId(id);
                 visitaServices.crear(visita);
+
                 response.redirect("http://" + url.getUrlOriginal());
             }
             else{
