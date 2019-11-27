@@ -5,17 +5,21 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.Version;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.hibernate.hql.internal.ast.util.NodeTraverser;
 import services.GestionDB;
+import services.UrlServices;
 import services.UsuarioServices;
+import services.VisitaServices;
 import spark.Session;
 import spark.Spark;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+
+import ua_parser.Parser;
+import ua_parser.Client;
 
 public class Rutas {
     public void manejoRutas(){
@@ -29,26 +33,72 @@ public class Rutas {
         }
 
         UsuarioServices usuarioServices = new UsuarioServices();
+        UrlServices urlServices = new UrlServices();
+        VisitaServices visitaServices = new VisitaServices();
 
         Spark.get("/", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
-            attributes.put("loggedUser", request.session(true).attribute("usuario"));
-            attributes.put("links", Controladora.getInstance().getMisUrls());
+
+            Usuario loggedUser = request.session(true).attribute("usuario");
+            attributes.put("loggedUser", loggedUser);
+            if(loggedUser != null){
+                attributes.put("links", urlServices.getUrlByUser(loggedUser.getId()));
+            }
+            else{
+                attributes.put("links", new ArrayList<>());
+            }
+
             return getPlantilla(configuration, attributes, "index.ftl");
         });
 
         Spark.get("/shorty.com/:index", (request, response) -> {
             String urlShort = request.pathInfo();
             System.out.println(urlShort);
-            Url url = Controladora.getInstance().findUrlByShort(urlShort);
+            Url url = urlServices.findUrlByShort(urlShort);
             if(url != null){
                 System.out.println("Going to..." + url.getUrlOriginal());
+
+                Parser uaParser = new Parser();
+                Client c = uaParser.parse(request.userAgent());
+                String sistemaOperativo = c.os.family + " " + c.os.major;
+                String browser = c.userAgent.family;
+                String ip = request.ip();
+                String id = UUID.randomUUID().toString();
+                Visita visita = new Visita(url, sistemaOperativo, browser, ip);
+                visita.setId(id);
+                visitaServices.crear(visita);
+
                 response.redirect("http://" + url.getUrlOriginal());
             }
             else{
                 System.out.println("Going nowhere!");
                 response.redirect("/");
             }
+            return "";
+        });
+
+        Spark.post("/createUrl", (request, response) -> {
+            String originalUrl = request.queryParams("originalUrl");
+            Url url = new Url(originalUrl);
+            String shortenedUrl = new Codec().encode(originalUrl);
+
+            url.setUrlBase62(shortenedUrl);
+            url.setUrlIndexada(Long.toString(urlServices.getSizeUrl()+1));
+
+            Usuario usuario = request.session().attribute("usuario");
+            if(usuario != null){
+                url.setCreador(usuario);
+                usuario.getUrlCreadas().add(url);
+            }else{
+                /**Usuario usuarioNotLogged = new Usuario("Anonimo", "Anonimo", "", false);
+                usuarioServices.crear(usuarioNotLogged);
+                url.setCreador(usuarioNotLogged);**/
+            }
+
+            urlServices.crear(url);
+            usuarioServices.editar(usuario);
+            response.redirect("/");
+            //System.out.println(request.)
             return "";
         });
 

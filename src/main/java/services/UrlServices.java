@@ -4,6 +4,7 @@ import logico.Url;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UrlServices extends GestionDB {
@@ -42,6 +43,16 @@ public class UrlServices extends GestionDB {
     }
 
     public long getSizeUrl(){
-        return (Long) getEntityManager().createQuery("Select count(u) from Url u").getSingleResult();
+        return (Long) getEntityManager().createQuery("Select count(u.urlIndexada) from Url u").getSingleResult();
+    }
+
+    public List<Url> getUrlByUser(String userid){
+        Query query = getEntityManager().createQuery("Select u from Url u where u.creador.id =:userid");
+        query.setParameter("userid", userid);
+        try{
+            return (List<Url>) query.getResultList();
+        }catch(NoResultException e){
+            return null;
+        }
     }
 }

@@ -8,6 +8,10 @@ import java.util.List;
 
 public class UsuarioServices extends GestionDB {
 
+    public UsuarioServices(){
+
+    }
+
     public List<Usuario> getUsuarios(){
         return getEntityManager().createQuery("Select u from Usuario u").getResultList();
     }
@@ -26,6 +30,8 @@ public class UsuarioServices extends GestionDB {
 
     public boolean validatePassword(String username, String password){
         Usuario usuario = null;
+        System.out.println("El usuario es: " + username);
+        System.out.println("El password es: " + password);
         Query query = getEntityManager().createQuery("Select u from Usuario u where u.username =:username and " +
                 "u.password =:password ");
         query.setParameter("username", username);

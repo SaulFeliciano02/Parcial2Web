@@ -1,5 +1,7 @@
 package logico;
 
+import services.UrlServices;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,9 +28,11 @@ public class Codec {
         }
         else {
             indexToUrl.put(Long.parseLong(Integer.toString(Controladora.getInstance().getMisUrls().size()+1)), longUrl);
-            urlToIndex.put(longUrl, Long.parseLong(Integer.toString(Controladora.getInstance().getMisUrls().size()+1)));
+            urlToIndex.put(longUrl, new UrlServices().getSizeUrl()+1);
+
             Url url = new Url(longUrl);
             url.setUrlIndexada("/shorty.com/"+urlToIndex.get(longUrl));
+            System.out.println("El valor de longUrl en este punto es: " + urlToIndex.get(longUrl));
             url.setUrlBase62("/shorty.com/"+base62Encode(urlToIndex.get(longUrl)));
             Controladora.getInstance().getMisUrls().add(url);
             String url2 = "/shorty.com/"+base62Encode(urlToIndex.get(longUrl));
