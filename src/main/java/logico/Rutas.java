@@ -112,6 +112,8 @@ public class Rutas {
             long safariVisits = visitaServices.getSizeVisitaByShortUrlBrowser(url.getUrlBase62(), "Safari");
 
             Map<String, Object> attributes = new HashMap<>();
+            Usuario loggedUser = request.session().attribute("usuario");
+            attributes.put("loggedUser", loggedUser);
             attributes.put("chromeVisits", chromeVisits);
             attributes.put("operaVisits", operaVisits);
             attributes.put("firefoxVisits", firefoxVisits);
