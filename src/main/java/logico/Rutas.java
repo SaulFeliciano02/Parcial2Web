@@ -102,6 +102,26 @@ public class Rutas {
             return "";
         });
 
+        Spark.get("/stats/:id", (request, response) -> {
+            String urlid = request.params("id");
+            Url url = urlServices.findUrlById(urlid);
+            long chromeVisits = visitaServices.getSizeVisitaByShortUrlBrowser(url.getUrlBase62(), "Chrome");
+            long operaVisits = visitaServices.getSizeVisitaByShortUrlBrowser(url.getUrlBase62(), "Opera");
+            long firefoxVisits = visitaServices.getSizeVisitaByShortUrlBrowser(url.getUrlBase62(), "Firefox");
+            long edgeVisits = visitaServices.getSizeVisitaByShortUrlBrowser(url.getUrlBase62(), "Edge");
+            long safariVisits = visitaServices.getSizeVisitaByShortUrlBrowser(url.getUrlBase62(), "Safari");
+
+            Map<String, Object> attributes = new HashMap<>();
+            Usuario loggedUser = request.session().attribute("usuario");
+            attributes.put("loggedUser", loggedUser);
+            attributes.put("chromeVisits", chromeVisits);
+            attributes.put("operaVisits", operaVisits);
+            attributes.put("firefoxVisits", firefoxVisits);
+            attributes.put("edgeVisits", edgeVisits);
+            attributes.put("safariVisits", safariVisits);
+            return getPlantilla(configuration, attributes, "stats.ftl");
+        });
+
         /**
          * Metodos Get y Post para logearse.
          */
