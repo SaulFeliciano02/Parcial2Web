@@ -85,6 +85,10 @@
             </form>
             <br><br>
 
+            <div id="qr">
+                <div id="qrcode"></div>
+            </div>
+
             <!--Tablas de links -->
             <table class="table">
                 <thead>
@@ -92,6 +96,7 @@
                     <th>Link</th>
                     <th>Shortened Link</th>
                     <th>Created By</th>
+                    <th>Analisis</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -102,6 +107,21 @@
                                 <td><a href="/shorty.com/${link.urlBase62?substring(12)}">${link.urlOriginal}"</a></td>
                                 <td><a href="/shorty.com/${link.urlBase62?substring(12)}">"${link.urlBase62}"</a></td>
                                 <td>${link.creador.username}</td>
+<#--                                <td><a id="analisis" class="btn btn-primary" name="${link.urlBase62?substring(12)}">QR</a></td>-->
+                                <td>
+                                    <div id="qrcode${link.urlBase62?substring(12)}"></div>
+                                    <script type="text/javascript">
+                                        new QRCode(document.getElementById("qrcode${link.urlBase62?substring(12)}"), "${link.urlOriginal?substring(12)}");
+                                        var qrcode = new QRCode("test", {
+                                            text: "/shorty.com/${link.urlBase62?substring(12)}",
+                                            width: 128,
+                                            height: 128,
+                                            colorDark : "#000000",
+                                            colorLight : "#ffffff",
+                                            correctLevel : QRCode.CorrectLevel.H
+                                        });
+                                    </script>
+                                </td>
                             </tr>
                     </#list>
                 </#if>
@@ -140,49 +160,6 @@
                 </div>
             </div>
 
-            <!-- Categories Widget -->
-            <div class="card my-4">
-                <h5 class="card-header">Categories</h5>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled mb-0">
-                                <li>
-                                    <a href="#">Web Design</a>
-                                </li>
-                                <li>
-                                    <a href="#">HTML</a>
-                                </li>
-                                <li>
-                                    <a href="#">Freebies</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled mb-0">
-                                <li>
-                                    <a href="#">JavaScript</a>
-                                </li>
-                                <li>
-                                    <a href="#">CSS</a>
-                                </li>
-                                <li>
-                                    <a href="#">Tutorials</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Side Widget -->
-            <div class="card my-4">
-                <h5 class="card-header">Side Widget</h5>
-                <div class="card-body">
-                    You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
-                </div>
-            </div>
-
         </div>
 
     </div>
@@ -199,17 +176,28 @@
     <!-- /.container -->
 </footer>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        var qrcode = new QRCode("test", {
-            text: "test",
-            width: 128,
-            height: 128,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-        });
-    });
-</script>
+<#--<script type="text/javascript">-->
+<#--    $(document).ready(function(){-->
+<#--        $('#analisis').click(function () {-->
+<#--            var elem = document.getElementById('qrcode');-->
+<#--            elem.parentNode.removeChild(elem);-->
+<#--            var html = document.createElement('div');-->
+<#--            html.id = 'qrcode';-->
+<#--            document.getElementById('qr').appendChild(html);-->
+<#--            var url = ;-->
+<#--            new QRCode(document.getElementById("qrcode"), "/shorty.com/" + url);-->
+
+<#--            var qrcode = new QRCode("test", {-->
+<#--                text: "test",-->
+<#--                width: 128,-->
+<#--                height: 128,-->
+<#--                colorDark: "#000000",-->
+<#--                colorLight: "#ffffff",-->
+<#--                correctLevel: QRCode.CorrectLevel.H,-->
+<#--                margin: 20-->
+<#--            });-->
+<#--        });-->
+<#--    });-->
+<#--</script>-->
 
 </body>

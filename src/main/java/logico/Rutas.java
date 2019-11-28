@@ -54,18 +54,26 @@ public class Rutas {
             String urlShort = request.pathInfo();
             System.out.println(urlShort);
             Url url = urlServices.findUrlByShort(urlShort);
+            if (url.getCreador()==null){
+                List<Url> tempUrls = (List<Url>) request.session().attribute("tempUrls");
+                if(tempUrls==null)
+                    tempUrls=new ArrayList<Url>();
+                tempUrls.add(url);
+                request.session().attribute("tempUrls",tempUrls);
+
+            }
             if(url != null){
                 System.out.println("Going to..." + url.getUrlOriginal());
 
-//                Parser uaParser = new Parser();
-//                Client c = uaParser.parse(request.userAgent());
-//                String sistemaOperativo = c.os.family + " " + c.os.major;
-//                String browser = c.userAgent.family;
-//                String ip = request.ip();
-//                String id = UUID.randomUUID().toString();
-//                Visita visita = new Visita(url, sistemaOperativo, browser, ip);
-//                visita.setId(id);
-//                visitaServices.crear(visita);
+                Parser uaParser = new Parser();
+                Client c = uaParser.parse(request.userAgent());
+                String sistemaOperativo = c.os.family + " " + c.os.major;
+                String browser = c.userAgent.family;
+                String ip = request.ip();
+                String id = UUID.randomUUID().toString();
+                Visita visita = new Visita(url, sistemaOperativo, browser, ip);
+                visita.setId(id);
+                visitaServices.crear(visita);
 
                 response.redirect("http://" + url.getUrlOriginal());
             }
@@ -166,6 +174,19 @@ public class Rutas {
             Usuario usuario = new Usuario(username, nombre, hashedPassword, false);
             usuario.setId(UUID.randomUUID().toString());
             usuarioServices.crear(usuario);
+            List<Url> tempUrls = request.session().attribute("tempUrls");
+            try {
+                new GestionDB<Usuario>(Usuario.class).crear(usuario);
+                if (tempUrls != null) {
+                    for (Url u : tempUrls) {
+                        u.setCreador(usuario);
+                        new GestionDB<>(Url.class).editar(u);
+                    }
+                }
+            }catch (Error e)
+            {
+
+            }
             //Controladora.getInstance().getMisUsuarios().add(usuario);
             Session session=request.session(true);
             session.attribute("usuario", usuario);
