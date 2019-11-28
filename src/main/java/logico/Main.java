@@ -1,5 +1,10 @@
 package logico;
 
+import services.BootStrapServices;
+import services.DataBaseServices;
+import services.GestionDB;
+import services.UsuarioServices;
+import spark.Spark;
 import org.apache.commons.codec.digest.DigestUtils;
 import services.*;
 
@@ -10,7 +15,7 @@ import java.util.UUID;
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-
+        Spark.staticFileLocation("/publico");
         BootStrapServices.startDb();
         DataBaseServices.getInstancia().testConexion();
         new Rutas().manejoRutas();
