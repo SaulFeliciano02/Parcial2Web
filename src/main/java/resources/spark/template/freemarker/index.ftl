@@ -109,9 +109,10 @@
                             <td>${link.creador.username}</td>
                             <#--                                <td><a id="analisis" class="btn btn-primary" name="${link.urlBase62?substring(12)}">QR</a></td>-->
                             <td>
+                                <a href="/stats/${link.urlIndexada}">Stats</a>
                                 <div id="qrcode${link.urlBase62?substring(12)}"></div>
                                 <script type="text/javascript">
-                                    new QRCode(document.getElementById("qrcode${link.urlBase62?substring(12)}"), "${link.urlOriginal?substring(12)}");
+                                    new QRCode(document.getElementById("qrcode${link.urlBase62?substring(12)}"), "localhost:4567/stats/${link.urlIndexada}");
                                     var qrcode = new QRCode("test", {
                                         text: "/shorty.com/${link.urlBase62?substring(12)}",
                                         width: 128,
