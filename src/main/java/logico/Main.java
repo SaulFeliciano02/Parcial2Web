@@ -29,6 +29,7 @@ public class Main {
             usuario = new Usuario("Admin", "Admin", DigestUtils.md5Hex("admin"), true);
             usuario.setId(UUID.randomUUID().toString());
             Usuario usuarioAnonimo = new Usuario("Anonimo", "Anonimo", DigestUtils.md5Hex(usuario.getId()), false);
+            usuarioAnonimo.setId(UUID.randomUUID().toString());
             usuarioServices.crear(usuario);
             usuarioServices.crear(usuarioAnonimo);
             System.out.println("Creando a un admin...");

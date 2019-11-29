@@ -22,11 +22,13 @@ public class Filtros {
             Usuario loggedUser = request.session().attribute("usuario");
             String urlid = request.params("id");
             Url url = new UrlServices().findUrlById(urlid);
-            if(loggedUser == null){
-                System.out.println("What up");
+            if(url == null){
+                halt("No tiene las credenciales para ingresar aqui");
             }
-
-            if((loggedUser == null || loggedUser.getId() != url.getCreador().getId()) && !loggedUser.isAdministrador()){
+            if(loggedUser == null){
+                halt("No tiene las credenciales para ingresar aqui");
+            }
+            else if(loggedUser.getId() != url.getCreador().getId() && !loggedUser.isAdministrador()){
                 halt("No tiene las credenciales para ingresar aqui");
             }
         });
