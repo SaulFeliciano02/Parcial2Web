@@ -121,7 +121,7 @@
                                 <a href="/stats/${link.urlIndexada}">Stats</a>
                                 <div id="qrcode${link.urlBase62}"></div>
                                 <script type="text/javascript">
-                                    new QRCode(document.getElementById("qrcode${link.urlBase62}"), "localhost:4567/stats/${link.urlIndexada}");
+                                    new QRCode(document.getElementById("qrcode${link.urlBase62}"), "therpshortener.herokuapp.com/stats/${link.urlIndexada}");
                                     var qrcode = new QRCode("test", {
                                         text: "/shorty.com/${link.urlBase62}",
                                         width: 128,
