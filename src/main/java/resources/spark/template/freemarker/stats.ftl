@@ -39,7 +39,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/menu/1">Home
+                    <a class="nav-link" href="/">Home
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
@@ -67,13 +67,25 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <br><br>
             <h1 class="my-4">Stats
             </h1>
 
             <h2 class="my-4">Test Chart</h2>
-            <div id="columnchart_values"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="columnchart_values"></div>
+                </div>
+                <div class="col-md-6">
+                    <div id="columnchartdays_values"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="columncharthours_values"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -101,6 +113,69 @@
             legend: { position: "none" },
         };
         var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+        chart.draw(data, options);
+    }
+
+    google.charts.setOnLoadCallback(drawChartDayOfWeek);
+    function drawChartDayOfWeek() {
+        var data = google.visualization.arrayToDataTable([
+            ['Webpage', 'Visitations', { role: 'style' } ],
+            ['Lunes', ${mondayVisits}, 'color: blue'],
+            ['Martes', ${tuesdayVisits}, 'color: blue'],
+            ['Miercoles', ${wednesdayVisits}, 'color: blue'],
+            ['Jueves', ${thursdayVisits}, 'color: blue'],
+            ['Viernes', ${fridayVisits}, 'color: blue'],
+            ['Sabado', ${saturdayVisits}, 'color: blue'],
+            ['Domingo', ${sundayVisits}, 'color: blue']
+        ]);
+        var options = {
+            title: "Visits by day of the week",
+            width: 600,
+            height: 400,
+            bar: {groupWidth: "95%"},
+            legend: { position: "none" },
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById("columnchartdays_values"));
+        chart.draw(data, options);
+    }
+
+    google.charts.setOnLoadCallback(drawChartHour);
+    function drawChartHour() {
+        var data = google.visualization.arrayToDataTable([
+            ['Webpage', 'Visitations', { role: 'style' } ],
+            ['00:00', ${zero}, 'color: blue'],
+            ['01:00', ${one}, 'color: blue'],
+            ['02:00', ${two}, 'color: blue'],
+            ['03:00', ${three}, 'color: blue'],
+            ['04:00', ${four}, 'color: blue'],
+            ['05:00', ${five}, 'color: blue'],
+            ['06:00', ${six}, 'color: blue'],
+            ['07:00', ${seven}, 'color: blue'],
+            ['08:00', ${eight}, 'color: blue'],
+            ['09:00', ${nine}, 'color: blue'],
+            ['10:00', ${ten}, 'color: blue'],
+            ['11:00', ${eleven}, 'color: blue'],
+            ['12:00', ${twelve}, 'color: blue'],
+            ['13:00', ${thirteen}, 'color: blue'],
+            ['14:00', ${fourteen}, 'color: blue'],
+            ['15:00', ${fifteen}, 'color: blue'],
+            ['16:00', ${sixteen}, 'color: blue'],
+            ['17:00', ${seventeen}, 'color: blue'],
+            ['18:00', ${eighteen}, 'color: blue'],
+            ['19:00', ${nineteen}, 'color: blue'],
+            ['20:00', ${twenty}, 'color: blue'],
+            ['21:00', ${twenty_one}, 'color: blue'],
+            ['22:00', ${twenty_two}, 'color: blue'],
+            ['23:00', ${twenty_three}, 'color: blue']
+        ]);
+        var options = {
+            title: "Visits by hour",
+            width: 1200,
+            height: 400,
+            bar: {groupWidth: "95%"},
+            legend: { position: "none" },
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById("columncharthours_values"));
         chart.draw(data, options);
     }
 </script>
