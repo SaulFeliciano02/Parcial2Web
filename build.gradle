@@ -1,11 +1,21 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '4.0.4'
 }
 
 group '20161534SaulF'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
+mainClassName = "logico.Main"
+/*
+shadowJar {
+    baseName = 'parcial2web'
+    classifier = null
+    version = null
+}
+*/
 
 repositories {
     mavenCentral()
@@ -27,4 +37,8 @@ dependencies {
     compile(group: 'commons-codec', name: 'commons-codec', version: '1.8')
     //Libreria user agent parser
     compile 'com.github.ua-parser:uap-java:1.4.3'
+}
+
+task stage {
+    dependsOn shadowJar
 }
