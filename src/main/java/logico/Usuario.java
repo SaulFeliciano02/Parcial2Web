@@ -1,5 +1,6 @@
 package logico;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -15,7 +16,7 @@ public class Usuario {
         private String nombre;
         private String password;
         private boolean administrador;
-        @OneToMany
+        @OneToMany(cascade = CascadeType.ALL)
         private List<Url> urlCreadas;
 
         public Usuario(){

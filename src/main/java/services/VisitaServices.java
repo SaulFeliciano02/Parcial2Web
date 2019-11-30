@@ -38,4 +38,32 @@ public class VisitaServices extends GestionDB{
         query.setParameter("os", os);
         return (long) query.getSingleResult();
     }
+
+    public long getSizeByDay(String dia){
+        Query query = getEntityManager().createQuery("Select count(v.id) from Visita v where v.dia =:dia");
+        query.setParameter("dia", dia);
+        return (long) query.getSingleResult();
+    }
+
+    public long getSizeByShortUrlDay(String urlShort, String dia){
+        Query query = getEntityManager().createQuery("Select count(v.id) from Visita v where v.dia =:dia and " +
+                "v.url.urlBase62 =:urlShort");
+        query.setParameter("urlShort", urlShort);
+        query.setParameter("dia", dia);
+        return (long) query.getSingleResult();
+    }
+
+    public long getSizeByHour(long hora){
+        Query query = getEntityManager().createQuery("Select count(v.id) from Visita v where v.hora =:hora");
+        query.setParameter("hora", hora);
+        return (long) query.getSingleResult();
+    }
+
+    public long getSizeByShortUrlHour(String urlShort, long hora){
+        Query query = getEntityManager().createQuery("Select count(v.id) from Visita v where v.hora =:hora and " +
+                "v.url.urlBase62 =:urlShort");
+        query.setParameter("urlShort", urlShort);
+        query.setParameter("hora", hora);
+        return (long) query.getSingleResult();
+    }
 }

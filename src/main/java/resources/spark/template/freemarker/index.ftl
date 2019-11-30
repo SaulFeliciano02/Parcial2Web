@@ -104,17 +104,21 @@
                 <#if links?size != 0>
                     <#list links as link>
                         <tr>
-                            <td><a href="/shorty.com/${link.urlBase62?substring(12)}">${link.urlOriginal}"</a></td>
-                            <td><a href="/shorty.com/${link.urlBase62?substring(12)}">"${link.urlBase62}"</a></td>
-                            <td>${link.creador.username}</td>
+                            <td><a href="shorty/${link.urlBase62}">${link.urlOriginal}</a></td>
+                            <td><a href="shorty/${link.urlBase62}">/shorty.com/${link.urlBase62}</a></td>
+                            <#if link.creador?exists>
+                                <td>${link.creador.username}</td>
+                            <#else>
+                                <td>Anonimo</td>
+                            </#if>
                             <#--                                <td><a id="analisis" class="btn btn-primary" name="${link.urlBase62?substring(12)}">QR</a></td>-->
                             <td>
                                 <a href="/stats/${link.urlIndexada}">Stats</a>
-                                <div id="qrcode${link.urlBase62?substring(12)}"></div>
+                                <div id="qrcode${link.urlBase62}"></div>
                                 <script type="text/javascript">
-                                    new QRCode(document.getElementById("qrcode${link.urlBase62?substring(12)}"), "localhost:4567/stats/${link.urlIndexada}");
+                                    new QRCode(document.getElementById("qrcode${link.urlBase62}"), "localhost:4567/stats/${link.urlIndexada}");
                                     var qrcode = new QRCode("test", {
-                                        text: "/shorty.com/${link.urlBase62?substring(12)}",
+                                        text: "/shorty.com/${link.urlBase62}",
                                         width: 128,
                                         height: 128,
                                         colorDark : "#000000",

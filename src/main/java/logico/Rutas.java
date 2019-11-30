@@ -16,6 +16,8 @@ import spark.Spark;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 import ua_parser.Parser;
@@ -41,18 +43,28 @@ public class Rutas {
 
             Usuario loggedUser = request.session(true).attribute("usuario");
             attributes.put("loggedUser", loggedUser);
-            if(loggedUser != null){
-                attributes.put("links", urlServices.getUrlByUser(loggedUser.getId()));
+
+            if(loggedUser == null){
+                List<Url> anonUrl = request.session().attribute("anonUrl");
+                if(anonUrl != null){
+                    attributes.put("links", anonUrl);
+                }
+                else{
+                    attributes.put("links", new ArrayList<>());
+                }
             }
-            else{
-                attributes.put("links", new ArrayList<>());
+            else if(loggedUser.isAdministrador() == true){
+                attributes.put("links", urlServices.getUrls());
+            }
+            else if(loggedUser != null){
+                attributes.put("links", urlServices.getUrlByUser(loggedUser.getId()));
             }
 
             return getPlantilla(configuration, attributes, "index.ftl");
         });
 
-        Spark.get("/shorty.com/:index", (request, response) -> {
-            String urlShort = request.pathInfo();
+        Spark.get("shorty/:index", (request, response) -> {
+            String urlShort = request.params("index");
             System.out.println(urlShort);
             Url url = urlServices.findUrlByShort(urlShort);
             if(url != null){
@@ -64,13 +76,16 @@ public class Rutas {
                 String browser = c.userAgent.family;
                 String ip = request.ip();
                 String id = UUID.randomUUID().toString();
-                Visita visita = new Visita(url, sistemaOperativo, browser, ip);
+                long hora = LocalTime.now().getHour();
+                String dia = LocalDate.now().getDayOfWeek().toString();
+                Visita visita = new Visita(url, sistemaOperativo, browser, ip, hora, dia);
                 visita.setId(id);
                 visitaServices.crear(visita);
 
                 response.redirect("http://" + url.getUrlOriginal());
             }
             else{
+                //List<Url> anonUrl = request.session().attribute();
                 System.out.println("Going nowhere!");
                 response.redirect("/");
             }
@@ -89,14 +104,20 @@ public class Rutas {
             if(usuario != null){
                 url.setCreador(usuario);
                 usuario.getUrlCreadas().add(url);
-            }else{
-                /**Usuario usuarioNotLogged = new Usuario("Anonimo", "Anonimo", "", false);
-                usuarioServices.crear(usuarioNotLogged);
-                url.setCreador(usuarioNotLogged);**/
+                urlServices.crear(url);
+                usuarioServices.editar(usuario);
+            }
+            else{
+                List<Url> anonUrl = (List<Url>) request.session().attribute("anonUrl");
+                if(anonUrl==null){
+                    anonUrl = new ArrayList<Url>();
+                }
+                anonUrl.add(url);
+                request.session().attribute("anonUrl", anonUrl);
+                urlServices.crear(url);
             }
 
-            urlServices.crear(url);
-            usuarioServices.editar(usuario);
+
             response.redirect("/");
             //System.out.println(request.)
             return "";
@@ -105,20 +126,94 @@ public class Rutas {
         Spark.get("/stats/:id", (request, response) -> {
             String urlid = request.params("id");
             Url url = urlServices.findUrlById(urlid);
-            long chromeVisits = visitaServices.getSizeVisitaByShortUrlBrowser(url.getUrlBase62(), "Chrome");
-            long operaVisits = visitaServices.getSizeVisitaByShortUrlBrowser(url.getUrlBase62(), "Opera");
-            long firefoxVisits = visitaServices.getSizeVisitaByShortUrlBrowser(url.getUrlBase62(), "Firefox");
-            long edgeVisits = visitaServices.getSizeVisitaByShortUrlBrowser(url.getUrlBase62(), "Edge");
-            long safariVisits = visitaServices.getSizeVisitaByShortUrlBrowser(url.getUrlBase62(), "Safari");
+            String urlShort = url.getUrlBase62();
+
+            //Navegadores
+            long chromeVisits = visitaServices.getSizeVisitaByShortUrlBrowser(urlShort, "Chrome");
+            long operaVisits = visitaServices.getSizeVisitaByShortUrlBrowser(urlShort, "Opera");
+            long firefoxVisits = visitaServices.getSizeVisitaByShortUrlBrowser(urlShort, "Firefox");
+            long edgeVisits = visitaServices.getSizeVisitaByShortUrlBrowser(urlShort, "Edge");
+            long safariVisits = visitaServices.getSizeVisitaByShortUrlBrowser(urlShort, "Safari");
+
+            //Dias de la semana
+            long mondayVisits = visitaServices.getSizeByShortUrlDay(urlShort, "MONDAY");
+            long tuesdayVisits = visitaServices.getSizeByShortUrlDay(urlShort, "TUESDAY");
+            long wednesdayVisits = visitaServices.getSizeByShortUrlDay(urlShort, "WEDNESDAY");
+            long thursdayVisits = visitaServices.getSizeByShortUrlDay(urlShort, "THURSDAY");
+            long fridayVisits = visitaServices.getSizeByShortUrlDay(urlShort, "FRIDAY");
+            long saturdayVisits = visitaServices.getSizeByShortUrlDay(urlShort, "SATURDAY");
+            long sundayVisits = visitaServices.getSizeByShortUrlDay(urlShort, "SUNDAY");
+
+            //Hora del dia
+            long zero = visitaServices.getSizeByShortUrlHour(urlShort, 0);
+            long one = visitaServices.getSizeByShortUrlHour(urlShort, 1);
+            long two = visitaServices.getSizeByShortUrlHour(urlShort, 2);
+            long three = visitaServices.getSizeByShortUrlHour(urlShort, 3);
+            long four = visitaServices.getSizeByShortUrlHour(urlShort, 4);
+            long five = visitaServices.getSizeByShortUrlHour(urlShort, 5);
+            long six = visitaServices.getSizeByShortUrlHour(urlShort, 6);
+            long seven = visitaServices.getSizeByShortUrlHour(urlShort, 7);
+            long eight = visitaServices.getSizeByShortUrlHour(urlShort, 8);
+            long nine = visitaServices.getSizeByShortUrlHour(urlShort, 9);
+            long ten = visitaServices.getSizeByShortUrlHour(urlShort, 10);
+            long eleven = visitaServices.getSizeByShortUrlHour(urlShort, 11);
+            long twelve = visitaServices.getSizeByShortUrlHour(urlShort, 12);
+            long thirteen = visitaServices.getSizeByShortUrlHour(urlShort, 13);
+            long fourteen = visitaServices.getSizeByShortUrlHour(urlShort, 14);
+            long fifteen = visitaServices.getSizeByShortUrlHour(urlShort, 15);
+            long sixteen = visitaServices.getSizeByShortUrlHour(urlShort, 16);
+            long seventeen = visitaServices.getSizeByShortUrlHour(urlShort, 17);
+            long eightteen = visitaServices.getSizeByShortUrlHour(urlShort, 18);
+            long nineteen = visitaServices.getSizeByShortUrlHour(urlShort, 19);
+            long twenty = visitaServices.getSizeByShortUrlHour(urlShort, 20);
+            long twenty_one = visitaServices.getSizeByShortUrlHour(urlShort, 21);
+            long twenty_two = visitaServices.getSizeByShortUrlHour(urlShort, 22);
+            long twenty_three = visitaServices.getSizeByShortUrlHour(urlShort, 23);
 
             Map<String, Object> attributes = new HashMap<>();
             Usuario loggedUser = request.session().attribute("usuario");
             attributes.put("loggedUser", loggedUser);
+
             attributes.put("chromeVisits", chromeVisits);
             attributes.put("operaVisits", operaVisits);
             attributes.put("firefoxVisits", firefoxVisits);
             attributes.put("edgeVisits", edgeVisits);
             attributes.put("safariVisits", safariVisits);
+
+            attributes.put("mondayVisits", mondayVisits);
+            attributes.put("tuesdayVisits", tuesdayVisits);
+            attributes.put("wednesdayVisits", wednesdayVisits);
+            attributes.put("thursdayVisits", thursdayVisits);
+            attributes.put("fridayVisits", fridayVisits);
+            attributes.put("saturdayVisits", saturdayVisits);
+            attributes.put("sundayVisits", sundayVisits);
+
+            attributes.put("zero", zero);
+            attributes.put("one", one);
+            attributes.put("two", two);
+            attributes.put("three", three);
+            attributes.put("four", four);
+            attributes.put("five", five);
+            attributes.put("six", six);
+            attributes.put("seven", seven);
+            attributes.put("eight", eight);
+            attributes.put("nine", nine);
+            attributes.put("ten", ten);
+            attributes.put("eleven", eleven);
+            attributes.put("twelve", twelve);
+            attributes.put("thirteen", thirteen);
+            attributes.put("fourteen", fourteen);
+            attributes.put("fifteen", fifteen);
+            attributes.put("sixteen", sixteen);
+            attributes.put("seventeen", seventeen);
+            attributes.put("eighteen", eightteen);
+            attributes.put("nineteen", nineteen);
+            attributes.put("twenty", twenty);
+            attributes.put("twenty_one", twenty_one);
+            attributes.put("twenty_two", twenty_two);
+            attributes.put("twenty_three", twenty_three);
+
+
             return getPlantilla(configuration, attributes, "stats.ftl");
         });
 
@@ -187,6 +282,14 @@ public class Rutas {
             Usuario usuario = new Usuario(username, nombre, hashedPassword, false);
             usuario.setId(UUID.randomUUID().toString());
             usuarioServices.crear(usuario);
+            List<Url> anonUrl = request.session().attribute("anonUrl");
+            if(anonUrl != null){
+                for(Url url : anonUrl){
+                    Url databaseUrl = urlServices.findUrlById(url.getUrlIndexada());
+                    databaseUrl.setCreador(usuario);
+                    urlServices.editar(databaseUrl);
+                }
+            }
             //Controladora.getInstance().getMisUsuarios().add(usuario);
             Session session=request.session(true);
             session.attribute("usuario", usuario);
@@ -201,7 +304,7 @@ public class Rutas {
             Session session=request.session(true);
             session.invalidate();
             response.removeCookie("usuario_id");
-            response.redirect("/menu/1");
+            response.redirect("/");
             return "";
         });
     }

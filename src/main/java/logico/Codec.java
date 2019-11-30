@@ -35,7 +35,7 @@ public class Codec {
             System.out.println("El valor de longUrl en este punto es: " + urlToIndex.get(longUrl));
             url.setUrlBase62("/shorty.com/"+base62Encode(urlToIndex.get(longUrl)));
             Controladora.getInstance().getMisUrls().add(url);
-            String url2 = "/shorty.com/"+base62Encode(urlToIndex.get(longUrl));
+            String url2 = base62Encode(urlToIndex.get(longUrl));
             System.out.println(urlToIndex.get(longUrl));
             System.out.println("/shorty.com/"+base62Encode(urlToIndex.get(longUrl)));
             return url2;

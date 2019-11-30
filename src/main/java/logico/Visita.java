@@ -4,26 +4,32 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 public class Visita implements Serializable {
     @Id
-    String id;
+    private String id;
     @OneToOne
-    Url url;
-    String sistemaOperativo;
-    String navegador;
-    String direccionIp;
+    private Url url;
+    private String sistemaOperativo;
+    private String navegador;
+    private String direccionIp;
+    private long hora;
+    private String dia;
+
 
     public Visita(){
 
     }
 
-    public Visita(Url url, String sistemaOperativo, String navegador, String direccionIp){
+    public Visita(Url url, String sistemaOperativo, String navegador, String direccionIp, long hora, String dia){
         this.url = url;
         this.sistemaOperativo = sistemaOperativo;
         this.navegador = navegador;
         this.direccionIp = direccionIp;
+        this.hora = hora;
+        this.dia = dia;
     }
 
     public String getId() {
@@ -42,6 +48,14 @@ public class Visita implements Serializable {
         return url;
     }
 
+    public String getDia() {
+        return dia;
+    }
+
+    public long getHora() {
+        return hora;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -56,5 +70,11 @@ public class Visita implements Serializable {
     }
     public void setUrl(Url url) {
         this.url = url;
+    }
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
+    public void setHora(long hora) {
+        this.hora = hora;
     }
 }

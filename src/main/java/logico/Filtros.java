@@ -3,6 +3,8 @@ package logico;
 import services.UrlServices;
 import services.UsuarioServices;
 
+import java.util.List;
+
 import static spark.Spark.before;
 import static spark.Spark.halt;
 
@@ -26,7 +28,23 @@ public class Filtros {
                 halt("No tiene las credenciales para ingresar aqui");
             }
             if(loggedUser == null){
-                halt("No tiene las credenciales para ingresar aqui");
+                List<Url> anonUrl = request.session().attribute("anonUrl");
+                if(anonUrl != null){
+                    //Url url = new UrlServices().findUrlById(urlid);
+                    boolean found = false;
+                    for (Url u: anonUrl) {
+                        if (u.getUrlIndexada()==url.getUrlIndexada()){
+                            found=true;
+                            break;
+                        }
+                    }
+                    if(!found) {
+                        halt(401, "No tiene las credenciales para ingresar aqui");
+                    }
+                }
+                else{
+                    halt(401,"No tiene las credenciales para ingresar aqui");
+                }
             }
             else if(loggedUser.getId() != url.getCreador().getId() && !loggedUser.isAdministrador()){
                 halt("No tiene las credenciales para ingresar aqui");
