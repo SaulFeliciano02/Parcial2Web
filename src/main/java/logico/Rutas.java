@@ -39,11 +39,20 @@ public class Rutas {
         VisitaServices visitaServices = new VisitaServices();
 
         Spark.get("/", (request, response) ->{
+
+            response.redirect("/menu/1");
+
+            return "";
+        });
+
+        Spark.get("/menu/:pageNumber", (request, response) ->{
+            int pageNumber = Integer.parseInt(request.params("pageNumber"));
             Map<String, Object> attributes = new HashMap<>();
 
             Usuario loggedUser = request.session(true).attribute("usuario");
             attributes.put("loggedUser", loggedUser);
-
+            attributes.put("pageNumber", pageNumber);
+            attributes.put("sizeAllLinks", urlServices.getSizeUrl());
             if(loggedUser == null){
                 List<Url> anonUrl = request.session().attribute("anonUrl");
                 if(anonUrl != null){
@@ -54,10 +63,10 @@ public class Rutas {
                 }
             }
             else if(loggedUser.isAdministrador() == true){
-                attributes.put("links", urlServices.getUrls());
+                attributes.put("links", urlServices.getUrls(pageNumber));
             }
             else if(loggedUser != null){
-                attributes.put("links", urlServices.getUrlByUser(loggedUser.getId()));
+                attributes.put("links", urlServices.getUrlByUser(loggedUser.getId(), pageNumber));
             }
 
             return getPlantilla(configuration, attributes, "index.ftl");
@@ -118,6 +127,7 @@ public class Rutas {
 
         Spark.post("/createUrl", (request, response) -> {
             String originalUrl = request.queryParams("originalUrl");
+            originalUrl = originalUrl.substring(8);
             Url url = new Url(originalUrl);
             String shortenedUrl = new Codec().encode(originalUrl);
 
@@ -127,9 +137,9 @@ public class Rutas {
             Usuario usuario = request.session().attribute("usuario");
             if(usuario != null){
                 url.setCreador(usuario);
-                usuario.getUrlCreadas().add(url);
+                //usuario.getUrlCreadas().add(url);
                 urlServices.crear(url);
-                usuarioServices.editar(usuario);
+                //usuarioServices.editar(usuario);
             }
             else{
                 List<Url> anonUrl = (List<Url>) request.session().attribute("anonUrl");
