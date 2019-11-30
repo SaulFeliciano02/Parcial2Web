@@ -3,6 +3,7 @@ package logico;
 import services.UrlServices;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Codec {
@@ -28,7 +29,9 @@ public class Codec {
         }
         else {
             indexToUrl.put(Long.parseLong(Integer.toString(Controladora.getInstance().getMisUrls().size()+1)), longUrl);
-            urlToIndex.put(longUrl, new UrlServices().getSizeUrl()+1);
+            List<Url> allUrls = new UrlServices().getAllUrls();
+            long id = Long.parseLong(allUrls.get(allUrls.size()-1).getUrlIndexada()) + 1;
+            urlToIndex.put(longUrl, id);
 
             Url url = new Url(longUrl);
             url.setUrlIndexada("/shorty.com/"+urlToIndex.get(longUrl));

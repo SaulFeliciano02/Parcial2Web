@@ -132,7 +132,9 @@ public class Rutas {
             String shortenedUrl = new Codec().encode(originalUrl);
 
             url.setUrlBase62(shortenedUrl);
-            url.setUrlIndexada(Long.toString(urlServices.getSizeUrl()+1));
+            List<Url> allUrls = urlServices.getAllUrls();
+            long id = Long.parseLong(allUrls.get(allUrls.size()-1).getUrlIndexada()) + 1;
+            url.setUrlIndexada(Long.toString(id));
 
             Usuario usuario = request.session().attribute("usuario");
             if(usuario != null){
@@ -249,6 +251,22 @@ public class Rutas {
 
 
             return getPlantilla(configuration, attributes, "stats.ftl");
+        });
+
+        Spark.get("eliminarUrl/:index", (request, response) -> {
+            String urlid = request.params("index");
+            Url url = urlServices.findUrlById(urlid);
+            List<Visita> visitas = visitaServices.getUrlsByVisit(urlid);
+            System.out.println("El tamaño de las visitas es: " + visitas.size());
+            for(Visita visita : visitas){
+                if(visita != null){
+                    System.out.println(visita.getId());
+                    new GestionDB<Visita>(Visita.class).eliminar(visita.getId());
+                }
+            }
+            new GestionDB<Url>(Url.class).eliminar(urlid);
+            response.redirect("/");
+            return "";
         });
 
         /**

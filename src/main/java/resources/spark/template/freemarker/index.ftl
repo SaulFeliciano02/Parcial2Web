@@ -101,6 +101,9 @@
                     <th>Link</th>
                     <th>Shortened Link</th>
                     <th>Created By</th>
+                    <#if loggedUser?exists && loggedUser.administrador == true>
+                    <th>Accion</th>
+                    </#if>
                     <th>Analisis</th>
                 </tr>
                 </thead>
@@ -115,6 +118,11 @@
                                 <td>${link.creador.username}</td>
                             <#else>
                                 <td>Anonimo</td>
+                            </#if>
+                            <#if loggedUser?exists && loggedUser.administrador == true>
+                                <td>
+                                    <a href="/eliminarUrl/${link.urlIndexada}">Eliminar</a>
+                                </td>
                             </#if>
                             <#--                                <td><a id="analisis" class="btn btn-primary" name="${link.urlBase62?substring(12)}">QR</a></td>-->
                             <td>
@@ -239,6 +247,11 @@
                 console.log(ruta);
                 document.location.href = ruta.toString();
             });
+        $('#eliminarUrl').on('click', function(){
+            var ruta = "/eliminarUrl/" + $(this).attr('data-url');
+            console.log(ruta);
+            document.location.href = ruta.toString();
+        })
     });
 </script>
 
