@@ -8,8 +8,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UrlServices extends GestionDB {
-    public List<Url> getUrls(){
-        return getEntityManager().createQuery("Select u from Url u").getResultList();
+    public List<Url> getUrls(int pageNum){
+        Query query = getEntityManager().createQuery("Select u from Url u");
+        int pageNumber = pageNum;
+        int pageSize = 5;
+        query.setFirstResult((pageNumber-1) * pageSize);
+        query.setMaxResults(pageSize);
+//        Query queryTotal = getEntityManager().createQuery
+//                ("Select count(f.id) from Url f");
+//        long countResult = (long)queryTotal.getSingleResult();
+        List <Url> urlist = query.getResultList();
+        try{
+            return urlist;
+        }catch(NoResultException e){
+            return null;
+        }
     }
 
     public Url findUrlByShort(String urlShort){
@@ -46,11 +59,19 @@ public class UrlServices extends GestionDB {
         return (Long) getEntityManager().createQuery("Select count(u.urlIndexada) from Url u").getSingleResult();
     }
 
-    public List<Url> getUrlByUser(String userid){
+    public List<Url> getUrlByUser(String userid, int pageNum){
         Query query = getEntityManager().createQuery("Select u from Url u where u.creador.id =:userid");
         query.setParameter("userid", userid);
+        int pageNumber = pageNum;
+        int pageSize = 5;
+        query.setFirstResult((pageNumber-1) * pageSize);
+        query.setMaxResults(pageSize);
+//        Query queryTotal = getEntityManager().createQuery
+//                ("Select count(f.id) from Url f");
+//        long countResult = (long)queryTotal.getSingleResult();
+        List <Url> urlist = query.getResultList();
         try{
-            return (List<Url>) query.getResultList();
+            return urlist;
         }catch(NoResultException e){
             return null;
         }

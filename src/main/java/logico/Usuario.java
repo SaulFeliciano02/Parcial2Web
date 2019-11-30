@@ -16,7 +16,7 @@ public class Usuario {
         private String nombre;
         private String password;
         private boolean administrador;
-        @OneToMany(cascade = CascadeType.ALL)
+        @OneToMany
         private List<Url> urlCreadas;
 
         public Usuario(){

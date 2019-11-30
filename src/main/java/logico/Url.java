@@ -1,5 +1,6 @@
 package logico;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -8,6 +9,7 @@ import javax.persistence.OneToOne;
 public class Url {
     @Id
     private String urlIndexada;
+    @Column (length = 1000)
     private String urlOriginal;
     private String urlBase62;
     @OneToOne
