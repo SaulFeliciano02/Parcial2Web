@@ -27,28 +27,28 @@ public class Filtros {
             if(url == null){
                 halt("No tiene las credenciales para ingresar aqui");
             }
-            if(loggedUser == null){
-                List<Url> anonUrl = request.session().attribute("anonUrl");
-                if(anonUrl != null){
-                    //Url url = new UrlServices().findUrlById(urlid);
-                    boolean found = false;
-                    for (Url u: anonUrl) {
-                        if (u.getUrlIndexada()==url.getUrlIndexada()){
-                            found=true;
-                            break;
-                        }
-                    }
-                    if(!found) {
-                        halt(401, "No tiene las credenciales para ingresar aqui");
-                    }
-                }
-                else{
-                    halt(401,"No tiene las credenciales para ingresar aqui");
-                }
-            }
-            else if(loggedUser.getId() != url.getCreador().getId() && !loggedUser.isAdministrador()){
-                halt("No tiene las credenciales para ingresar aqui");
-            }
+//            if(loggedUser == null){
+//                List<Url> anonUrl = request.session().attribute("anonUrl");
+//                if(anonUrl != null){
+//                    //Url url = new UrlServices().findUrlById(urlid);
+//                    boolean found = false;
+//                    for (Url u: anonUrl) {
+//                        if (u.getUrlIndexada()==url.getUrlIndexada()){
+//                            found=true;
+//                            break;
+//                        }
+//                    }
+//                    if(!found) {
+//                        halt(401, "No tiene las credenciales para ingresar aqui");
+//                    }
+//                }
+//                else{
+//                    halt(401,"No tiene las credenciales para ingresar aqui");
+//                }
+//            }
+//            else if(loggedUser.getId() != url.getCreador().getId() && !loggedUser.isAdministrador()){
+//                halt("No tiene las credenciales para ingresar aqui");
+//            }
         });
 
         before("/administradores", (request, response) -> {
