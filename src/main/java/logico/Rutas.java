@@ -133,7 +133,15 @@ public class Rutas {
 
             url.setUrlBase62(shortenedUrl);
             List<Url> allUrls = urlServices.getAllUrls();
-            long id = Long.parseLong(allUrls.get(allUrls.size()-1).getUrlIndexada()) + 1;
+            long id;
+            if(allUrls.size() == 0)
+            {
+                id = 1;
+            }
+            else
+            {
+                id = Long.parseLong(allUrls.get(allUrls.size()-1).getUrlIndexada()) + 1;
+            }
             url.setUrlIndexada(Long.toString(id));
 
             Usuario usuario = request.session().attribute("usuario");

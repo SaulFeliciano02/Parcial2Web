@@ -30,7 +30,15 @@ public class Codec {
         else {
             indexToUrl.put(Long.parseLong(Integer.toString(Controladora.getInstance().getMisUrls().size()+1)), longUrl);
             List<Url> allUrls = new UrlServices().getAllUrls();
-            long id = Long.parseLong(allUrls.get(allUrls.size()-1).getUrlIndexada()) + 1;
+            long id;
+            if(allUrls.size() == 0)
+            {
+                id = 1;
+            }
+            else
+            {
+                id = Long.parseLong(allUrls.get(allUrls.size()-1).getUrlIndexada()) + 1;
+            }
             urlToIndex.put(longUrl, id);
 
             Url url = new Url(longUrl);
