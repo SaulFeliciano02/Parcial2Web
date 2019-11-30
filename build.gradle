@@ -9,13 +9,13 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 mainClassName = "logico.Main"
-/*
+
 shadowJar {
     baseName = 'parcial2web'
     classifier = null
     version = null
 }
-*/
+
 
 repositories {
     mavenCentral()
