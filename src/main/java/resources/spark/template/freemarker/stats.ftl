@@ -51,6 +51,11 @@
                         <a class="nav-link" href="#">${loggedUser.username}</a>
                     </li>
                 </#if>
+                <#if loggedUser?exists && loggedUser.administrador == true>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/administradores">Autores</a>
+                    </li>
+                </#if>
                 <#if loggedUser?exists>
                     <li class="nav-item">
                         <a class="nav-link" href="/disconnect">Desconectar</a>
@@ -72,7 +77,7 @@
             <h1 class="my-4">Stats
             </h1>
 
-            <h2 class="my-4">Test Chart</h2>
+            <h2 class="my-4">Charts</h2>
             <div class="row">
                 <div class="col-md-6">
                     <div id="columnchart_values"></div>

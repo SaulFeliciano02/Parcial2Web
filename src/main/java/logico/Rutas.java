@@ -63,6 +63,30 @@ public class Rutas {
             return getPlantilla(configuration, attributes, "index.ftl");
         });
 
+        Spark.get("/administradores", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("listaUsuarios", usuarioServices.getUsuarios());
+            return getPlantilla(configuration, attributes, "administrador.ftl");
+        });
+
+        Spark.post("/makeAdministrador/:username", (request, response) -> {
+            String username = request.params("username");
+            Usuario usu = usuarioServices.searchUserByUsername(username);
+            boolean valor;
+            if(request.queryParams("checkAdministrador") != null)
+            {
+                valor = true;
+            }
+            else{
+                valor=false;
+            }
+            usu.setAdministrador(valor);
+            usuarioServices.editar(usu);
+            //new UserServices().actualizarUsuario(usu);
+            response.redirect("/administradores");
+            return "";
+        });
+
         Spark.get("shorty/:index", (request, response) -> {
             String urlShort = request.params("index");
             System.out.println(urlShort);

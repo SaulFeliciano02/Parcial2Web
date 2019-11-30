@@ -49,6 +49,11 @@
                         <a class="nav-link" href="#">${loggedUser.username}</a>
                     </li>
                 </#if>
+                <#if loggedUser?exists && loggedUser.administrador == true>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/administradores">Autores</a>
+                    </li>
+                </#if>
                 <#if loggedUser?exists>
                     <li class="nav-item">
                         <a class="nav-link" href="/disconnect">Desconectar</a>

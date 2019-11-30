@@ -51,6 +51,16 @@ public class Filtros {
             }
         });
 
+        before("/administradores", (request, response) -> {
+            Usuario usuario = request.session().attribute("usuario");
+            if(usuario == null){
+                halt("No tiene las credenciales para ingresar aqui");
+            }
+            else if(!usuario.isAdministrador()){
+                halt("No tiene las credenciales para ingresar aqui");
+            }
+        });
+
         /**before("/shorty.com/*", (request, response) -> {
             System.out.println("I made it here");
            String urlShort = request.pathInfo();
