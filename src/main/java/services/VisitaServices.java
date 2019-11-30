@@ -1,10 +1,26 @@
 package services;
 
+import logico.Url;
+import logico.Usuario;
 import logico.Visita;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VisitaServices extends GestionDB{
+
+    public List<Visita> getUrlsByVisit(String urlid){
+        Query query = getEntityManager().createQuery("Select v from Visita v where v.url.urlIndexada =:urlid");
+        query.setParameter("urlid", urlid);
+        try{
+            return (List<Visita>) query.getResultList();
+        }catch(NoResultException e){
+            return new ArrayList<>();
+        }
+    }
+
     public long getSizeVisitaByBrowser(String browser){
         Query query = getEntityManager().createQuery("Select count(v.id) from Visita v where v.navegador =:browser");
         query.setParameter("browser", browser);

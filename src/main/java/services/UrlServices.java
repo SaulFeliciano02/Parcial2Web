@@ -25,6 +25,14 @@ public class UrlServices extends GestionDB {
         }
     }
 
+    public List<Url> getAllUrls(){
+        try{
+            return getEntityManager().createQuery("Select u from Url u").getResultList();
+        }catch(NoResultException e){
+            return new ArrayList<>();
+        }
+    }
+
     public Url findUrlByShort(String urlShort){
         Query query = getEntityManager().createQuery("Select u from Url u where u.urlBase62 =:urlShort");
         query.setParameter("urlShort", urlShort);
