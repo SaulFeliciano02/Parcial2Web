@@ -47,6 +47,7 @@ import java.sql.SQLException;
             try {
                 con = DriverManager.getConnection(URL, "sa", "");
             } catch (SQLException ex) {
+                System.out.println("Problema con la conexion");
                 //Logger.getLogger(UserServices.class.getName()).log(Level.SEVERE, null, ex);
             }
             return con;
