@@ -66,9 +66,9 @@ public class Rutas {
                 attributes.put("links", urlServices.getUrls(pageNumber));
             }
             else if(loggedUser != null){
+                System.out.println("No soy un usuario administrador!");
                 attributes.put("links", urlServices.getUrlByUser(loggedUser.getId(), pageNumber));
             }
-
             return getPlantilla(configuration, attributes, "index.ftl");
         });
 
@@ -120,14 +120,22 @@ public class Rutas {
             else{
                 //List<Url> anonUrl = request.session().attribute();
                 System.out.println("Going nowhere!");
-                response.redirect("/");
+                Map<String, Object> attributes = new HashMap<>();
+                attributes.put("loggedUser", request.session().attribute("usuario"));
+                return getPlantilla(configuration, attributes, "notFound.ftl");
+                //response.redirect("/");
             }
             return "";
         });
 
         Spark.post("/createUrl", (request, response) -> {
             String originalUrl = request.queryParams("originalUrl");
-            originalUrl = originalUrl.substring(8);
+            if(originalUrl.contains("https://")){
+                originalUrl = originalUrl.substring(8);
+            }
+            else if (originalUrl.contains("http://")) {
+                originalUrl = originalUrl.substring(7);
+            }
             Url url = new Url(originalUrl);
             String shortenedUrl = new Codec().encode(originalUrl);
 

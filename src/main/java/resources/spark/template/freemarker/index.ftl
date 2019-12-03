@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <!-- microlink -->
+    <script src="https://cdn.jsdelivr.net/combine/npm/react@16/umd/react.production.min.js,npm/react-dom@16/umd/react-dom.production.min.js,npm/styled-components@4/dist/styled-components.min.js,npm/@microlink/mql@latest/dist/mql.min.js,npm/@microlink/vanilla@latest/dist/microlink.min.js"></script><script src="https://cdn.jsdelivr.net/combine/npm/react@16/umd/react.production.min.js,npm/react-dom@16/umd/react-dom.production.min.js,npm/styled-components@4/dist/styled-components.min.js,npm/@microlink/mql@latest/dist/mql.min.js,npm/@microlink/vanilla@latest/dist/microlink.min.js"></script>
 
 
 </head>
@@ -95,57 +97,58 @@
             </div>
 
             <!--Tablas de links -->
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Link</th>
-                    <th>Shortened Link</th>
-                    <th>Created By</th>
-                    <#if loggedUser?exists && loggedUser.administrador == true>
-                    <th>Accion</th>
-                    </#if>
-                    <th>Analisis</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <#if links?size != 0>
-                    <#list links as link>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead>
                         <tr>
-                            <td><a href="../shorty/${link.urlBase62}">${link.urlOriginal}</a></td>
-                            <td><a href="../shorty/${link.urlBase62}">/shorty.com/${link.urlBase62}</a></td>
-                            <#if link.creador?exists>
-                                <td>${link.creador.username}</td>
-                            <#else>
-                                <td>Anonimo</td>
-                            </#if>
-                            <#if loggedUser?exists && loggedUser.administrador == true>
-                                <td>
-                                    <a href="/eliminarUrl/${link.urlIndexada}">Eliminar</a>
-                                </td>
-                            </#if>
-                            <#--                                <td><a id="analisis" class="btn btn-primary" name="${link.urlBase62?substring(12)}">QR</a></td>-->
-                            <td>
-                                <a href="/stats/${link.urlIndexada}">Stats</a>
-                                <div id="qrcode${link.urlBase62}"></div>
-                                <script type="text/javascript">
-                                    new QRCode(document.getElementById("qrcode${link.urlBase62}"), "therpshortener.herokuapp.com/stats/${link.urlIndexada}");
-                                    var qrcode = new QRCode("test", {
-                                        text: "/shorty.com/${link.urlBase62}",
-                                        width: 128,
-                                        height: 128,
-                                        colorDark : "#000000",
-                                        colorLight : "#ffffff",
-                                        correctLevel : QRCode.CorrectLevel.H
-                                    });
-                                </script>
-                            </td>
+                            <th>Link</th>
+                            <th>Shortened Link</th>
+                            <th>Created By</th>
+                            <th>Accion</th>
+                            <th>Analisis</th>
                         </tr>
-                    </#list>
-                </#if>
+                        </thead>
+                        <tbody>
 
-                </tbody>
-            </table>
+                        <#if links?size != 0>
+                            <#list links as link>
+                                <tr>
+                                    <td><a href="http://${link.urlOriginal}" class="link-previews">${link.urlOriginal}</a></td>
+                                    <td><a href="../shorty/${link.urlBase62}">/shorty.com/${link.urlBase62}</a></td>
+                                    <#if link.creador?exists>
+                                        <td>${link.creador.username}</td>
+                                    <#else>
+                                        <td>Anonimo</td>
+                                    </#if>
+                                    <td>
+                                        <a href="/eliminarUrl/${link.urlIndexada}">Eliminar</a>
+                                    </td>
+                                    <#--                                <td><a id="analisis" class="btn btn-primary" name="${link.urlBase62?substring(12)}">QR</a></td>-->
+                                    <td>
+                                        <a href="/stats/${link.urlIndexada}">Stats</a>
+                                        <div id="qrcode${link.urlBase62}"></div>
+                                        <script type="text/javascript">
+                                            new QRCode(document.getElementById("qrcode${link.urlBase62}"), "therpshortener.herokuapp.com/shorty/${link.urlBase62}");
+                                            var qrcode = new QRCode("test", {
+                                                text: "/shorty.com/${link.urlBase62}",
+                                                width: 128,
+                                                height: 128,
+                                                colorDark : "#000000",
+                                                colorLight : "#ffffff",
+                                                correctLevel : QRCode.CorrectLevel.H
+                                            });
+                                        </script>
+                                    </td>
+                                </tr>
+                            </#list>
+                        </#if>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
 
             <!-- Blog Post -->
             <div class="card mb-4">
@@ -253,6 +256,15 @@
             document.location.href = ruta.toString();
         })
     });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function (event) {
+        microlink('.link-previews', {
+            size: 'small'
+        })
+    })
 </script>
 
 </body>
