@@ -37,6 +37,8 @@ dependencies {
     compile(group: 'commons-codec', name: 'commons-codec', version: '1.8')
     //Libreria user agent parser
     compile 'com.github.ua-parser:uap-java:1.4.3'
+    //Libreria para el parse de Json a objeto y viceversa
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.1'
 }
 
 task stage {
