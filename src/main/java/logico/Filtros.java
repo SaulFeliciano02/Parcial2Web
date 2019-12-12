@@ -1,5 +1,6 @@
 package logico;
 
+import services.JWTServices;
 import services.UrlServices;
 import services.UsuarioServices;
 

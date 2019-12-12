@@ -1,16 +1,14 @@
 package logico;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.Version;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.hql.internal.ast.util.NodeTraverser;
-import services.GestionDB;
-import services.UrlServices;
-import services.UsuarioServices;
-import services.VisitaServices;
+import services.*;
 import spark.Session;
 import spark.Spark;
 
@@ -313,6 +311,24 @@ public class Rutas {
 
                 return horas;
             }, JsonUtilidades.json());
+        });
+
+        Spark.post("/token", (request, response) -> {
+            JsonObject json = new JsonObject();
+            json.addProperty("token", JWTServices.createJWT(UUID.randomUUID().toString(), "http://localhost:4567/", "Access Token", 0));
+            return json;
+        });
+
+        Spark.get("/validateToken", (request, response) -> {
+            System.out.println("Wasaaa");
+            String token = request.headers("token") != null ? request.headers("token") : request.headers("TOKEN");
+            if (token == null || token.isEmpty() || !JWTServices.decodeJWT(token)) {
+                System.out.println("I dont exist!");
+                //request.attribute("Denied", "Denied");
+                //halt(401);
+                return false;
+            }
+            return true;
         });
     }
 
