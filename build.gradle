@@ -30,6 +30,7 @@ dependencies {
     compile 'org.thymeleaf:thymeleaf:3.0.5.RELEASE'
     compile "org.slf4j:slf4j-simple:1.7.21"
     compile 'com.h2database:h2:1.4.191'
+    compile group: 'org.eclipse.jetty', name: 'jetty-http-spi', version: '9.4.4.v20170414'
     //Librerias de Hibernate
     compile 'org.hibernate:hibernate-core:5.4.1.Final'
     compile 'org.hibernate:hibernate-entitymanager:5.4.1.Final'
@@ -37,6 +38,10 @@ dependencies {
     compile(group: 'commons-codec', name: 'commons-codec', version: '1.8')
     //Libreria user agent parser
     compile 'com.github.ua-parser:uap-java:1.4.3'
+    //Soap
+    compile group: 'javax.jws', name: 'javax.jws-api', version: '1.1'
+    compile 'com.sun.xml.ws:rt:2.3.2'
+    compile 'com.sun.xml.messaging.saaj:saaj-impl:1.5.1'
 }
 
 task stage {
