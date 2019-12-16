@@ -4,6 +4,7 @@ import services.BootStrapServices;
 import services.DataBaseServices;
 import services.GestionDB;
 import services.UsuarioServices;
+import soap.SoapService;
 import spark.Spark;
 import org.apache.commons.codec.digest.DigestUtils;
 import services.*;
@@ -16,7 +17,7 @@ import static spark.Spark.port;
 
 public class Main {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws Exception {
         port(getHerokuAssignedPort());
         Spark.staticFileLocation("/publico");
         BootStrapServices.startDb();
@@ -27,6 +28,7 @@ public class Main {
         UsuarioServices usuarioServices = new UsuarioServices();
         VisitaServices visitaServices = new VisitaServices();
 
+        SoapService.init();
         Usuario usuario = null;
         if(usuarioServices.getSizeUsuario() == 0){
             usuario = new Usuario("Admin", "Admin", DigestUtils.md5Hex("admin"), true);
@@ -56,6 +58,6 @@ public class Main {
         if (processBuilder.environment().get("PORT") != null) {
             return Integer.parseInt(processBuilder.environment().get("PORT"));
         }
-        return 4567; //Retorna el puerto por defecto en caso de no estar en Heroku.
+        return 8081; //Retorna el puerto por defecto en caso de no estar en Heroku.
     }
 }

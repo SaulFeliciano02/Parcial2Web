@@ -84,4 +84,14 @@ public class UrlServices extends GestionDB {
             return null;
         }
     }
+
+    public List<Url> getUrlByOnlyUsername(String username){
+        Query query = getEntityManager().createQuery("Select u from Url u where u.creador.username =:username");
+        query.setParameter("username", username);
+        try{
+            return query.getResultList();
+        }catch(NoResultException e){
+            return null;
+        }
+    }
 }

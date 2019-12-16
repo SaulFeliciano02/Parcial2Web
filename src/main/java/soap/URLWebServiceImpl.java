@@ -6,16 +6,17 @@ import logico.Usuario;
 import services.UrlServices;
 import services.UsuarioServices;
 
+import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.List;
 
+@WebService(endpointInterface = "soap.URLWebService")
 public class URLWebServiceImpl implements URLWebService {
 
 
     @Override
     public List<Url> getUrlsFromUser(String username) {
-        List<Url> urls = new UsuarioServices().searchUserByUsername(username).getUrlCreadas();
-
+        List<Url> urls = new UrlServices().getUrlByOnlyUsername(username);//new UsuarioServices().searchUserByUsername(username).getUrlCreadas();
         return urls;
     }
 
