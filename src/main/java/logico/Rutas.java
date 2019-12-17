@@ -6,6 +6,10 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.Version;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
+import kong.unirest.json.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.hql.internal.ast.util.NodeTraverser;
 import services.*;
@@ -148,6 +152,7 @@ public class Rutas {
             Spark.post("/createUrl", (request, response) -> {
                 Usuario usuario = new Gson().fromJson(request.body(), Usuario.class);
                 String originalUrl = request.queryParams("originalUrl");
+
                 if(originalUrl.contains("https://")){
                     originalUrl = originalUrl.substring(8);
                 }
@@ -167,6 +172,17 @@ public class Rutas {
                     id = Long.parseLong(allUrls.get(allUrls.size()-1).getUrlIndexada()) + 1;
                 }
                 url.setUrlIndexada(Long.toString(id));
+                //Añadiendo datos del preview
+                String baseUrl = "http://api.linkpreview.net/?key=5de79e90a156b442e87430922b367e4ad6f85640a7bca&q=";
+                String previewUrl = baseUrl + originalUrl;
+                HttpResponse<JsonNode> preview = Unirest.get(previewUrl)
+                        .asJson();
+
+                JSONObject myObj = preview.getBody().getObject();
+                String imagenPreview = myObj.getString("image");
+                String descripcionPreview = myObj.getString("description");
+                url.setImagenPreview(imagenPreview);
+                url.setDescripcionPreview(descripcionPreview);
                 if(usuario != null){
                     url.setCreador(usuario);
                     urlServices.crear(url);

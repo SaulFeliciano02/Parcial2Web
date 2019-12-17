@@ -41,6 +41,8 @@ dependencies {
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.1'
     //Libreria para JWT
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    //Libreria para llamadas
+    compile('com.konghq:unirest-java:3.2.00')
 }
 
 task stage {
