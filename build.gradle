@@ -42,6 +42,8 @@ dependencies {
     compile group: 'javax.jws', name: 'javax.jws-api', version: '1.1'
     compile 'com.sun.xml.ws:rt:2.3.2'
     compile 'com.sun.xml.messaging.saaj:saaj-impl:1.5.1'
+    //Libreria para llamadas
+    compile('com.konghq:unirest-java:3.2.00')
 }
 
 task stage {

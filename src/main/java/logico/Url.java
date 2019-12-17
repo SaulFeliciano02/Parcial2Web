@@ -14,6 +14,8 @@ public class Url {
     private String urlBase62;
     @OneToOne
     private Usuario creador;
+    private String imagenPreview;
+    private String descripcionPreview;
 
     public Url(){
 
@@ -57,5 +59,17 @@ public class Url {
 
     public void setCreador(Usuario creador) {
         this.creador = creador;
+    }
+    public String getDescripcionPreview() {
+        return descripcionPreview;
+    }
+    public void setDescripcionPreview(String descripcionPreview) {
+        this.descripcionPreview = descripcionPreview;
+    }
+    public String getImagenPreview() {
+        return imagenPreview;
+    }
+    public void setImagenPreview(String imagenPreview) {
+        this.imagenPreview = imagenPreview;
     }
 }

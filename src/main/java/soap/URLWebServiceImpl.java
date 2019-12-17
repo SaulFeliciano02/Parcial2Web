@@ -1,5 +1,9 @@
 package soap;
 
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
+import kong.unirest.json.JSONObject;
 import logico.Codec;
 import logico.Url;
 import logico.Usuario;
@@ -53,6 +57,17 @@ public class URLWebServiceImpl implements URLWebService {
         url.setUrlIndexada(Long.toString(id));
 
 //        Usuario usuario = request.session().attribute("usuario");
+        //Añadiendo datos del preview
+        String baseUrl = "http://api.linkpreview.net/?key=5de79e90a156b442e87430922b367e4ad6f85640a7bca&q=";
+        String previewUrl = baseUrl + originalUrl;
+        HttpResponse<JsonNode> preview = Unirest.get(previewUrl)
+                .asJson();
+
+        JSONObject myObj = preview.getBody().getObject();
+        String imagenPreview = myObj.getString("image");
+        String descripcionPreview = myObj.getString("description");
+        url.setImagenPreview(imagenPreview);
+        url.setDescripcionPreview(descripcionPreview);
         if(user != null){
             url.setCreador(user);
             //usuario.getUrlCreadas().add(url);
