@@ -95,6 +95,7 @@ public class Rutas {
                         urlServices.editar(databaseUrl);
                     }
                 }
+                request.session().invalidate();
                 System.out.println("Creacion exitosa!");
                 return "";
             });
