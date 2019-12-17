@@ -315,7 +315,7 @@ public class Rutas {
 
         Spark.post("/token", (request, response) -> {
             JsonObject json = new JsonObject();
-            json.addProperty("token", JWTServices.createJWT(UUID.randomUUID().toString(), "http://localhost:4567/", "Access Token", 0));
+            json.addProperty("token", JWTServices.createJWT(UUID.randomUUID().toString(), "http://shielded-stream-52221.herokuapp.com/", "Access Token", 0));
             return json;
         });
 
